@@ -19,10 +19,18 @@
 }
 
 .btn {
-  width: 150px;
   display: flex;
+  margin-top: 20px;
 }
 
-.fbtn {
+.create_btn {
   margin-right: 10px;
+}
+
+.close_btn button {
+  color: rgb(207, 0, 0);
+}
+
+.close_btn button:hover {
+  color: red;
 }

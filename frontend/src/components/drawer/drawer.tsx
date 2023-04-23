@@ -15,10 +15,11 @@ import style from './drawer.module.css'
 
 
 
-type Anchor = 'right';
-
 export const CreateButton = () => {
   
+  type Anchor = 'right';
+  
+
   const {refetch} = useQuery(['product'], () => productApi.getAll<IProduct[]>())
   const { register, handleSubmit } = useForm<IProductForm>();
   
@@ -56,11 +57,15 @@ export const CreateButton = () => {
             <hr />
           </div>
           <form onSubmit={handleSubmit(onSubmit)} className={style.form}>
-            <TextField id="outlined-basic" label="Name" type='text' {...register('name')} variant="outlined" />
+            <TextField id="outlined-basic" label="Name" {...register('name')} variant="outlined" />
             <TextField id="outlined-basic" label="Price" {...register('price')} variant="outlined" />
             <div className={style.btn}>
-              <Button type="submit" variant="outlined" className={style.fbtn} onClick={toggleDrawer(anchor, false)}>Create</Button>
-              <Button variant="text" onClick={toggleDrawer(anchor, false)}>Cancel</Button>
+              <div className={style.create_btn}>
+                <Button type="submit" variant="outlined">Create</Button>
+              </div>
+              <div className={style.close_btn}>
+                <Button variant="text" onClick={toggleDrawer(anchor, false)}>Back</Button>
+              </div>
             </div>
           </form>
         </div>

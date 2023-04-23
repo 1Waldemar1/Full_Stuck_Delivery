@@ -44,6 +44,9 @@ export const productApi = {
   async create(product: IProductForm) {
     return await api.post(this.path, product)
   },
+  async delete(id: string) {
+    return await api.delete(this.path + id)
+  },
 }
 
 export const clientApi = {
