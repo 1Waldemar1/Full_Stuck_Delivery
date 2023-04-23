@@ -1,3 +1,5 @@
+import { IProductForm } from "../components/drawer/types"
+
 export class Api {
   constructor(private baseUrl = 'http://localhost:3000/') {}
 
@@ -13,10 +15,23 @@ export class Api {
     
     const request = await fetch(this.baseUrl + path + queryParam)
     return await request.json()
+  };
+
+  async post(path: string, body: object) {
+    const request = await fetch(this.baseUrl + path, { headers: { 'Content-Type': 'application/json;charset=utf-8' }, body: JSON.stringify(body), method: 'Post' })
+    return await request.json()
+  };
+
+  async delete(path: string) {
+    const request = await fetch(this.baseUrl + path, { method: 'Delete' })
+    return await request.json()
   }
+
 }
 
 export const api = new Api()
+
+
 
 export const productApi = {
   path: 'product/',
@@ -25,6 +40,9 @@ export const productApi = {
   },
   async getById(id: string) {
     return await api.get(this.path + id)
+  },
+  async create(product: IProductForm) {
+    return await api.post(this.path, product)
   },
 }
 

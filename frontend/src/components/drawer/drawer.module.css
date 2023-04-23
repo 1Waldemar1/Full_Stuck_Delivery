@@ -1,0 +1,28 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  min-width: 450px;
+  gap: 20px;
+  padding: 50px 10px 0 30px;
+}
+
+.title {
+  margin: 0 10px 0 30px;
+  color: rgb(29, 40, 51);
+}
+
+.title hr {
+  border: none;
+  height: 2px;
+  color: rgb(225, 225, 225);
+  background-color: rgb(225, 225, 225);
+}
+
+.btn {
+  width: 150px;
+  display: flex;
+}
+
+.fbtn {
+  margin-right: 10px;
+}

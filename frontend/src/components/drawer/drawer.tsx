@@ -1,23 +1,38 @@
 import * as React from 'react';
+import { TextField } from '@mui/material';
+import { useForm } from "react-hook-form";
+import { IProductForm } from './types';
+import { productApi } from '../../api/api';
+import { useQuery } from '@tanstack/react-query';
+import { IProduct } from '../../pages/product/types';
+
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
 import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+
+import style from './drawer.module.css'
+
+
 
 type Anchor = 'right';
 
 export const CreateButton = () => {
+  
+  const {refetch} = useQuery(['product'], () => productApi.getAll<IProduct[]>())
+  const { register, handleSubmit } = useForm<IProductForm>();
+  
+  const onSubmit = async (data: IProductForm) => {
+    await productApi.create(data)
+    refetch()
+  };
+
+
+
   const [state, setState] = React.useState({
     right: false,
   });
-
+  
   const toggleDrawer =
     (anchor: Anchor, open: boolean) =>
     (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -33,35 +48,22 @@ export const CreateButton = () => {
     };
 
   const list = (anchor: Anchor) => (
-    <Box
-      role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
-    >
+    <Box role="presentation">
       <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        <div>
+          <div className={style.title}>
+            <h2>Create Product</h2>
+            <hr />
+          </div>
+          <form onSubmit={handleSubmit(onSubmit)} className={style.form}>
+            <TextField id="outlined-basic" label="Name" type='text' {...register('name')} variant="outlined" />
+            <TextField id="outlined-basic" label="Price" {...register('price')} variant="outlined" />
+            <div className={style.btn}>
+              <Button type="submit" variant="outlined" className={style.fbtn} onClick={toggleDrawer(anchor, false)}>Create</Button>
+              <Button variant="text" onClick={toggleDrawer(anchor, false)}>Cancel</Button>
+            </div>
+          </form>
+        </div>
       </List>
     </Box>
   );
