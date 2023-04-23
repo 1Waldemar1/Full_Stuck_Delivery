@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model client {
+  idClient  Int     @id @default(autoincrement())
+  full_name String  @db.VarChar(50)
+  address   String  @db.VarChar(100)
+  phone     String  @db.VarChar(12)
+  order     order[]
+
+  @@index([phone], map: "Client_phone_idx")
+}
+
+model courier {
+  idCourier Int     @id @default(autoincrement())
+  full_name String  @db.VarChar(50)
+  phone     String  @db.VarChar(12)
+  order     order[]
+
+  @@index([phone], map: "Courier_phone_idx")
+}
+
+model list_of_products {
+  idList_of_products Int      @id @default(autoincrement())
+  quantity           Int
+  order              order?   @relation(fields: [idOrder], references: [idOrder], map: "Order")
+  product            product? @relation(fields: [idProduct], references: [idProduct], map: "Product")
+  idProduct          Int?
+  idOrder            Int?
+
+  @@index([idOrder], map: "Order_idx")
+  @@index([idProduct], map: "Product_idx")
+}
+
+model order {
+  idOrder             Int                @id @default(autoincrement())
+  address             String             @db.VarChar(100)
+  order_creation_date DateTime           @db.Date
+  sum                 Decimal?           @default(0.00) @db.Decimal(19, 2)
+  list_of_products    list_of_products[]
+  client              client?            @relation(fields: [idClient], references: [idClient], map: "Client")
+  courier             courier?           @relation(fields: [idCourier], references: [idCourier], map: "Courier")
+  idCourier           Int?
+  idClient            Int?
+
+  @@index([idClient], map: "Client_idx")
+  @@index([idCourier], map: "Courier_idx")
+}
+
+model product {
+  idProduct        Int                @id @default(autoincrement())
+  name             String             @db.VarChar(50)
+  price            Decimal            @db.Decimal(19, 2)
+  list_of_products list_of_products[]
+}

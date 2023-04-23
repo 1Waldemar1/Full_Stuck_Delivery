@@ -1,0 +1,9 @@
+.link {
+  text-decoration: none;
+  color: black;
+}
+
+.root {
+  background-color: rgb(255, 255, 255);
+  height: 1000px;
+}

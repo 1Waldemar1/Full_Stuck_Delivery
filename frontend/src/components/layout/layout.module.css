@@ -1,0 +1,17 @@
+.root {
+  display: flex;
+  flex-direction: column;
+}
+
+.root .body {
+  display: flex;
+  background-color: rgb(241, 242, 246);
+}
+
+.root .body .sidebar {
+  width: 300px;
+}
+
+.root .body .pages {
+  flex: 1;
+}
