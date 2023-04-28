@@ -1,4 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UsePipes, ValidationPipe } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { ProductService } from './product.service';
 import { ProductDto } from './dto/product.dto';
 
@@ -9,27 +19,31 @@ export class ProductController {
   @UsePipes(new ValidationPipe())
   @Post()
   async create(@Body() dto: ProductDto) {
-    return this.productService.createProduct(dto)
+    return this.productService.createProduct(dto);
   }
 
   @Get()
   async get() {
-    return this.productService.getProducts()
+    return this.productService.getProducts();
   }
 
   @Get(':id')
   async getId(@Param('id') idProduct: string) {
-    return this.productService.byId(+idProduct)
+    return this.productService.byId(+idProduct);
   }
 
   @Put(':id')
   async update(@Param('id') idProduct: string, @Body() dto: ProductDto) {
-    return this.productService.updateProduct(+idProduct, dto)
+    return this.productService.updateProduct(+idProduct, dto);
+  }
+
+  @Put('call/:procent')
+  async call(@Param('procent') procent: number) {
+    return this.productService.callProcedure(procent);
   }
 
   @Delete(':id')
   async delete(@Param('id') idProduct: string) {
-    return this.productService.deleteProduct(+idProduct)
+    return this.productService.deleteProduct(+idProduct);
   }
-
 }

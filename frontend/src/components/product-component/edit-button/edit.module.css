@@ -34,3 +34,7 @@
 .close_btn button:hover {
   color: red;
 }
+
+.edit_btn {
+  margin-right: 20px;
+}

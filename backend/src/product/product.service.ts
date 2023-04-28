@@ -10,50 +10,52 @@ export class ProductService {
   async createProduct(dto: ProductDto) {
     return await this.prisma.product.create({
       data: {
-        ...dto
-      }
-    })
+        ...dto,
+      },
+    });
   }
 
   async getProducts() {
     return await this.prisma.product.findMany({
-      select: returnProduct
-    })
+      select: returnProduct,
+    });
   }
 
   async byId(idProduct: number) {
     const product = await this.prisma.product.findUnique({
       where: {
-        idProduct
+        idProduct,
       },
       select: {
-        ...returnProduct
-      }
-    })
+        ...returnProduct,
+      },
+    });
 
-    if (!product){
-      throw new BadRequestException('Product not found')
+    if (!product) {
+      throw new BadRequestException('Product not found');
     }
 
-    return product
+    return product;
   }
 
   async updateProduct(idProduct: number, dto: ProductDto) {
-   
     return this.prisma.product.update({
       where: {
-        idProduct: idProduct
+        idProduct: idProduct,
       },
-      data: dto
-    })
+      data: dto,
+    });
   }
 
   async deleteProduct(idProduct: number) {
-
     return this.prisma.product.delete({
       where: {
-        idProduct
-      }
-    })
+        idProduct,
+      },
+    });
+  }
+
+  async callProcedure(procent: number) {
+    return await this.prisma.$executeRaw`call increase_prices(${procent})`;
   }
 }
