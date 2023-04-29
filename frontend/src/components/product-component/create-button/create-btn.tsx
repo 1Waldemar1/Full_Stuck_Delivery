@@ -2,7 +2,7 @@ import * as React from "react";
 import { TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { IProduct, IProductForm } from "../../../pages/product/types";
-import { productApi } from "../../../api/product-api";
+import { ProductApi } from "../../../api/product-api";
 import { useQuery } from "@tanstack/react-query";
 
 import Box from "@mui/material/Box";
@@ -21,12 +21,12 @@ export const CreateButton = () => {
   };
 
   const { refetch } = useQuery(["product"], () =>
-    productApi.getAll<IProduct[]>()
+    ProductApi.getAll<IProduct[]>()
   );
   const { register, handleSubmit } = useForm<IProductForm>();
 
   const onSubmit = async (data: IProductForm) => {
-    await productApi.create(data);
+    await ProductApi.create(data);
     refetch();
   };
 

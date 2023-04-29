@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { productApi } from "../../api/product-api";
+import { ProductApi } from "../../api/product-api";
 import { IProduct } from "./types";
 import {
   TableContainer,
@@ -19,7 +19,7 @@ import { EditBtn } from "../../components/product-component/edit-button/edit-btn
 import { DeleteBtn } from "../../components/product-component/delete-button/delete-btn";
 
 export const ProductPage = () => {
-  const { data } = useQuery(["product"], () => productApi.getAll<IProduct[]>());
+  const { data } = useQuery(["product"], () => ProductApi.getAll<IProduct[]>());
 
   return (
     <Card sx={{ minWidth: 300 }} className={style.card}>

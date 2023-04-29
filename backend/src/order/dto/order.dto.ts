@@ -1,24 +1,24 @@
-import { Type } from "class-transformer";
-import { IsDate, IsNumber, IsString } from "class-validator";
+import { Type } from 'class-transformer';
+import { IsDate, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class OrderDto {
-
   @IsNumber()
   @Type(() => Number)
-  sum: number
+  @IsOptional()
+  sum: number;
 
   @IsString()
-  address: string
+  address: string;
 
   @IsDate()
   @Type(() => Date)
-  order_creation_date: Date
+  order_creation_date: Date;
 
   @IsNumber()
   @Type(() => Number)
-  idClient: number
+  idClient: number;
 
   @IsNumber()
   @Type(() => Number)
-  idCourier: number
+  idCourier: number;
 }

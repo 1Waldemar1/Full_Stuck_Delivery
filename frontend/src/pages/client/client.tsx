@@ -10,7 +10,7 @@ import {
   Card,
   CardContent,
 } from "@mui/material";
-import { clientApi } from "../../api/client-api";
+import { ClientApi } from "../../api/client-api";
 import { CreateButton } from "../../components/client-component/create-button/create-btn";
 import { DeleteBtn } from "../../components/client-component/delete-button/delete-btn";
 import { EditBtn } from "../../components/client-component/edit-button/edit-btn";
@@ -18,7 +18,7 @@ import { IClient } from "./types";
 import style from "./client.module.css";
 
 export const ClientPage = () => {
-  const { data } = useQuery(["client"], () => clientApi.getAll<IClient[]>());
+  const { data } = useQuery(["client"], () => ClientApi.getAll<IClient[]>());
 
   return (
     <Card sx={{ minWidth: 300 }} className={style.card}>

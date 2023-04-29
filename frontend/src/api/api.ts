@@ -38,19 +38,4 @@ export class Api {
     return await request.json();
   }
 }
-
 export const api = new Api();
-
-export const orderApi = {
-  path: "order/",
-  async getAll() {
-    return await api.get(this.path);
-  },
-};
-
-export const ListOfProductsApi = {
-  path: "list-of-products/",
-  async getAll() {
-    return await api.get(this.path);
-  },
-};

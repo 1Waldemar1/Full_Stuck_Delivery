@@ -1,7 +1,7 @@
 import { api } from "./api";
 import { ICourierForm, ICourierEdit } from "../pages/courier/types";
 
-export const courierApi = {
+export const CourierApi = {
   path: "courier/",
   async getAll<T>(): Promise<T> {
     return await api.get(this.path);

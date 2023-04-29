@@ -1,8 +1,12 @@
 import * as React from "react";
-import { TextField } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 import { useForm } from "react-hook-form";
-import { IClient, IClientForm } from "../../../pages/client/types";
-import { ClientApi } from "../../../api/client-api";
 import { useQuery } from "@tanstack/react-query";
 
 import Box from "@mui/material/Box";
@@ -12,6 +16,15 @@ import List from "@mui/material/List";
 import AddIcon from "@mui/icons-material/Add";
 
 import style from "./create.module.css";
+import { IOrder } from "../../../pages/order/types";
+import { OrderApi } from "../../../api/order-api";
+import { ListOfProductsApi } from "../../../api/list-of-products-api";
+import {
+  IListOfProducts,
+  IListOfProductsForm,
+} from "../../../pages/list-of-products/types";
+import { ProductApi } from "../../../api/product-api";
+import { IProduct } from "../../../pages/product/types";
 
 export const CreateButton = () => {
   type Anchor = "right";
@@ -20,11 +33,19 @@ export const CreateButton = () => {
     (document.getElementById("form") as HTMLFormElement)?.reset();
   };
 
-  const { refetch } = useQuery(["client"], () => ClientApi.getAll<IClient[]>());
-  const { register, handleSubmit } = useForm<IClientForm>();
+  const { refetch } = useQuery(["list-of-products"], () =>
+    ListOfProductsApi.getAll<IListOfProducts[]>()
+  );
+  const { data: product } = useQuery(["product"], () =>
+    ProductApi.getAll<IProduct[]>()
+  );
+  const { data: order } = useQuery(["order"], () =>
+    OrderApi.getAll<IOrder[]>()
+  );
+  const { register, handleSubmit } = useForm<IListOfProductsForm>();
 
-  const onSubmit = async (data: IClientForm) => {
-    await ClientApi.create(data);
+  const onSubmit = async (data: IListOfProductsForm) => {
+    await ListOfProductsApi.create(data);
     refetch();
   };
 
@@ -54,7 +75,7 @@ export const CreateButton = () => {
       <List>
         <div>
           <div className={style.title}>
-            <h2>Create client</h2>
+            <h2>Create List Of Products</h2>
             <hr />
           </div>
           <form
@@ -62,23 +83,50 @@ export const CreateButton = () => {
             onSubmit={handleSubmit(onSubmit)}
             className={style.form}
           >
+            <FormControl fullWidth>
+              <InputLabel>Address</InputLabel>
+              {order && (
+                <Select
+                  label="Address"
+                  MenuProps={{ disableScrollLock: true }}
+                  fullWidth
+                  defaultValue=""
+                  inputProps={register("idOrder", {
+                    required: "Please enter currency",
+                  })}
+                >
+                  {order.map((item) => (
+                    <MenuItem key={item.idOrder} value={item.idOrder}>
+                      {item.address}
+                    </MenuItem>
+                  ))}
+                </Select>
+              )}
+            </FormControl>
+            <FormControl fullWidth>
+              <InputLabel>Name Product</InputLabel>
+              {product && (
+                <Select
+                  label="Name Product"
+                  MenuProps={{ disableScrollLock: true }}
+                  fullWidth
+                  defaultValue=""
+                  inputProps={register("idProduct", {
+                    required: "Please enter currency",
+                  })}
+                >
+                  {product.map((item) => (
+                    <MenuItem key={item.idProduct} value={item.idProduct}>
+                      {item.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              )}
+            </FormControl>
             <TextField
               id="outlined-basic"
-              label="Full Name"
-              {...register("full_name")}
-              variant="outlined"
-            />
-            <TextField
-              id="outlined-basic"
-              label="Phone"
-              type="tel"
-              {...register("phone")}
-              variant="outlined"
-            />
-            <TextField
-              id="outlined-basic"
-              label="Address"
-              {...register("address")}
+              label={"Quantity"}
+              {...register("quantity")}
               variant="outlined"
             />
             <div className={style.btn}>
@@ -114,7 +162,7 @@ export const CreateButton = () => {
         <React.Fragment key={anchor}>
           <Button onClick={toggleDrawer(anchor, true)} variant="outlined">
             <AddIcon />
-            Create a new client
+            Create a new List Of Products
           </Button>
           <Drawer
             anchor={anchor}

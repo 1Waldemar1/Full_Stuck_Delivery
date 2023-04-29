@@ -1,8 +1,12 @@
 import * as React from "react";
-import { TextField } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 import { useForm } from "react-hook-form";
-import { IClient, IClientForm } from "../../../pages/client/types";
-import { ClientApi } from "../../../api/client-api";
 import { useQuery } from "@tanstack/react-query";
 
 import Box from "@mui/material/Box";
@@ -12,6 +16,12 @@ import List from "@mui/material/List";
 import AddIcon from "@mui/icons-material/Add";
 
 import style from "./create.module.css";
+import { IOrder, IOrderForm } from "../../../pages/order/types";
+import { OrderApi } from "../../../api/order-api";
+import { ClientApi } from "../../../api/client-api";
+import { IClient } from "../../../pages/client/types";
+import { CourierApi } from "../../../api/courier-api";
+import { ICourier } from "../../../pages/courier/types";
 
 export const CreateButton = () => {
   type Anchor = "right";
@@ -20,11 +30,17 @@ export const CreateButton = () => {
     (document.getElementById("form") as HTMLFormElement)?.reset();
   };
 
-  const { refetch } = useQuery(["client"], () => ClientApi.getAll<IClient[]>());
-  const { register, handleSubmit } = useForm<IClientForm>();
+  const { refetch } = useQuery(["order"], () => OrderApi.getAll<IOrder[]>());
+  const { data: client } = useQuery(["client"], () =>
+    ClientApi.getAll<IClient[]>()
+  );
+  const { data: courier } = useQuery(["courier"], () =>
+    CourierApi.getAll<ICourier[]>()
+  );
+  const { register, handleSubmit } = useForm<IOrderForm>();
 
-  const onSubmit = async (data: IClientForm) => {
-    await ClientApi.create(data);
+  const onSubmit = async (data: IOrderForm) => {
+    await OrderApi.create(data);
     refetch();
   };
 
@@ -54,7 +70,7 @@ export const CreateButton = () => {
       <List>
         <div>
           <div className={style.title}>
-            <h2>Create client</h2>
+            <h2>Create Order</h2>
             <hr />
           </div>
           <form
@@ -64,23 +80,56 @@ export const CreateButton = () => {
           >
             <TextField
               id="outlined-basic"
-              label="Full Name"
-              {...register("full_name")}
-              variant="outlined"
-            />
-            <TextField
-              id="outlined-basic"
-              label="Phone"
-              type="tel"
-              {...register("phone")}
-              variant="outlined"
-            />
-            <TextField
-              id="outlined-basic"
               label="Address"
               {...register("address")}
               variant="outlined"
             />
+            <TextField
+              id="outlined-basic"
+              type="date"
+              {...register("order_creation_date")}
+              variant="outlined"
+            />
+            <FormControl fullWidth>
+              <InputLabel>Client</InputLabel>
+              {client && (
+                <Select
+                  label="client"
+                  MenuProps={{ disableScrollLock: true }}
+                  fullWidth
+                  defaultValue=""
+                  inputProps={register("idClient", {
+                    required: "Please enter currency",
+                  })}
+                >
+                  {client.map((item) => (
+                    <MenuItem key={item.idClient} value={item.idClient}>
+                      {item.full_name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              )}
+            </FormControl>
+            <FormControl fullWidth>
+              <InputLabel>Courier</InputLabel>
+              {courier && (
+                <Select
+                  label="Courier"
+                  MenuProps={{ disableScrollLock: true }}
+                  fullWidth
+                  defaultValue=""
+                  inputProps={register("idCourier", {
+                    required: "Please enter currency",
+                  })}
+                >
+                  {courier.map((item) => (
+                    <MenuItem key={item.idCourier} value={item.idCourier}>
+                      {item.full_name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              )}
+            </FormControl>
             <div className={style.btn}>
               <div className={style.btns}>
                 <Button
@@ -114,7 +163,7 @@ export const CreateButton = () => {
         <React.Fragment key={anchor}>
           <Button onClick={toggleDrawer(anchor, true)} variant="outlined">
             <AddIcon />
-            Create a new client
+            Create a new Order
           </Button>
           <Drawer
             anchor={anchor}

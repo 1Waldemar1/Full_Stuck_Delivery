@@ -1,7 +1,7 @@
 import * as React from "react";
 import { TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
-import { clientApi } from "../../../api/client-api";
+import { ClientApi } from "../../../api/client-api";
 import { useQuery } from "@tanstack/react-query";
 import { IClient, IClientEdit, IClientForm } from "../../../pages/client/types";
 
@@ -16,7 +16,7 @@ import style from "./edit.module.css";
 export const EditBtn = (props: any) => {
   type Anchor = "right";
 
-  const { refetch } = useQuery(["client"], () => clientApi.getAll<IClient[]>());
+  const { refetch } = useQuery(["client"], () => ClientApi.getAll<IClient[]>());
 
   const { register, handleSubmit } = useForm<IClientForm>();
 
@@ -29,7 +29,7 @@ export const EditBtn = (props: any) => {
       address: data.address,
     };
 
-    await clientApi.update(id, client);
+    await ClientApi.update(id, client);
     refetch();
   };
 

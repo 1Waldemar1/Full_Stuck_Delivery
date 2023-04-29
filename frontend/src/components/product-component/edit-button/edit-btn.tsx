@@ -1,7 +1,7 @@
 import * as React from "react";
 import { TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
-import { productApi } from "../../../api/product-api";
+import { ProductApi } from "../../../api/product-api";
 import { useQuery } from "@tanstack/react-query";
 import {
   IProduct,
@@ -21,7 +21,7 @@ export const EditBtn = (props: any) => {
   type Anchor = "right";
 
   const { refetch } = useQuery(["product"], () =>
-    productApi.getAll<IProduct[]>()
+    ProductApi.getAll<IProduct[]>()
   );
 
   const { register, handleSubmit } = useForm<IProductForm>();
@@ -34,7 +34,7 @@ export const EditBtn = (props: any) => {
       price: data.price,
     };
 
-    await productApi.update(id, product);
+    await ProductApi.update(id, product);
     refetch();
   };
 

@@ -10,7 +10,7 @@ import {
   Card,
   CardContent,
 } from "@mui/material";
-import { courierApi } from "../../api/courier-api";
+import { CourierApi } from "../../api/courier-api";
 import { CreateButton } from "../../components/courier-component/create-button/create-btn";
 import { DeleteBtn } from "../../components/courier-component/delete-button/delete-btn";
 import { EditBtn } from "../../components/courier-component/edit-button/edit-btn";
@@ -18,7 +18,7 @@ import { ICourier } from "./types";
 import style from "./courier.module.css";
 
 export const CourierPage = () => {
-  const { data } = useQuery(["courier"], () => courierApi.getAll<ICourier[]>());
+  const { data } = useQuery(["courier"], () => CourierApi.getAll<ICourier[]>());
 
   return (
     <Card sx={{ minWidth: 300 }} className={style.card}>

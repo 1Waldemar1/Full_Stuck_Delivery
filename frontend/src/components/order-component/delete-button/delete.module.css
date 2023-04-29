@@ -1,0 +1,7 @@
+.delete_btn {
+  cursor: pointer;
+}
+
+.delete_btn:hover {
+  color: rgb(211, 0, 0);
+}

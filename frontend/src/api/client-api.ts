@@ -1,7 +1,7 @@
 import { IClientEdit, IClientForm } from "../pages/client/types";
 import { api } from "./api";
 
-export const clientApi = {
+export const ClientApi = {
   path: "client/",
   async getAll<T>(): Promise<T> {
     return await api.get(this.path);

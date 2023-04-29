@@ -10,7 +10,7 @@ import List from "@mui/material/List";
 import EditIcon from "@mui/icons-material/Edit";
 
 import style from "./edit.module.css";
-import { courierApi } from "../../../api/courier-api";
+import { CourierApi } from "../../../api/courier-api";
 import {
   ICourier,
   ICourierEdit,
@@ -21,7 +21,7 @@ export const EditBtn = (props: any) => {
   type Anchor = "right";
 
   const { refetch } = useQuery(["courier"], () =>
-    courierApi.getAll<ICourier[]>()
+    CourierApi.getAll<ICourier[]>()
   );
 
   const { register, handleSubmit } = useForm<ICourierForm>();
@@ -34,7 +34,7 @@ export const EditBtn = (props: any) => {
       phone: data.phone,
     };
 
-    await courierApi.update(id, courier);
+    await CourierApi.update(id, courier);
     refetch();
   };
 

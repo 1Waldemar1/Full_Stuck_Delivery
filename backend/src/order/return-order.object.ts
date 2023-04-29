@@ -1,7 +1,7 @@
-import { Prisma } from "@prisma/client";
+import { Prisma } from '@prisma/client';
 
 export const returnOrder: Prisma.orderSelect = {
-  idOrder:true,
+  idOrder: true,
   address: true,
   order_creation_date: true,
   sum: true,
@@ -9,15 +9,15 @@ export const returnOrder: Prisma.orderSelect = {
     select: {
       idCourier: true,
       full_name: true,
-      phone: true
-    }
+      phone: true,
+    },
   },
   client: {
     select: {
       idClient: true,
       full_name: true,
       address: true,
-      phone: true
-    }
-  }
-}
+      phone: true,
+    },
+  },
+};

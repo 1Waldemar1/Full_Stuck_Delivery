@@ -2,7 +2,7 @@ import * as React from "react";
 import { TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { ICourier, ICourierForm } from "../../../pages/courier/types";
-import { courierApi } from "../../../api/courier-api";
+import { CourierApi } from "../../../api/courier-api";
 import { useQuery } from "@tanstack/react-query";
 
 import Box from "@mui/material/Box";
@@ -21,12 +21,12 @@ export const CreateButton = () => {
   };
 
   const { refetch } = useQuery(["courier"], () =>
-    courierApi.getAll<ICourier[]>()
+    CourierApi.getAll<ICourier[]>()
   );
   const { register, handleSubmit } = useForm<ICourierForm>();
 
   const onSubmit = async (data: ICourierForm) => {
-    await courierApi.create(data);
+    await CourierApi.create(data);
     refetch();
   };
 
