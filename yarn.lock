@@ -2,3 +2,14 @@
 # yarn lockfile v1
 
 
+paging-algorithm@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/paging-algorithm/-/paging-algorithm-1.0.1.tgz#18abe482a6a202bfaab4b023a407c8cc2072cb8a"
+  integrity sha512-hYLG10yTytEcE7gaeLw5z1Rert4MHYiQNxzwLt59LHb3bKRBShDX/0BqX4tQoAK11tQzoqSFkUelc6ptagfy5w==
+
+react-paginating@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/react-paginating/-/react-paginating-1.4.0.tgz#f19c4871d60428a7a2a0d49981da0e1df148e129"
+  integrity sha512-fVUQil9O8R5t7ggPvMqW6lz5/0TLbPvrfJ+54NykeURqmxAk3TBbIOL9SS7KRmpggDkym+6BNnSMdQ45Fh2wvg==
+  dependencies:
+    paging-algorithm "^1.0.1"

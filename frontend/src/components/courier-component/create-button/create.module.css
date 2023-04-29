@@ -21,10 +21,17 @@
 .btn {
   display: flex;
   margin-top: 20px;
+  justify-content: space-between;
+
 }
 
-.create_btn {
+.btns {
   margin-right: 10px;
+  display: inline-flex;
+}
+
+.btn_reset {
+  margin-left: 10px;
 }
 
 .close_btn button {
@@ -33,13 +40,4 @@
 
 .close_btn button:hover {
   color: red;
-}
-
-.edit_btn {
-  margin-right: 20px;
-  cursor: pointer;
-}
-
-.edit_btn:hover {
-  color: rgb(0, 192, 0);
 }

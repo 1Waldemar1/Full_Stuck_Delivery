@@ -41,20 +41,6 @@ export class Api {
 
 export const api = new Api();
 
-export const clientApi = {
-  path: "client/",
-  async getAll() {
-    return await api.get(this.path);
-  },
-};
-
-export const courierApi = {
-  path: "courier/",
-  async getAll() {
-    return await api.get(this.path);
-  },
-};
-
 export const orderApi = {
   path: "order/",
   async getAll() {

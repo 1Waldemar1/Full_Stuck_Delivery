@@ -1,18 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
-import { productApi } from "../../../api/product-api";
-import { IProduct } from "../../../pages/product/types";
+import { clientApi } from "../../../api/client-api";
+import { IClient } from "../../../pages/client/types";
 import DeleteIcon from "@mui/icons-material/Delete";
 import style from "./delete.module.css";
 
 export const DeleteBtn = (props: any) => {
-  const { refetch } = useQuery(["product"], () =>
-    productApi.getAll<IProduct[]>()
-  );
+  const { refetch } = useQuery(["client"], () => clientApi.getAll<IClient[]>());
 
   const onDelete = async () => {
     let id = props.id;
 
-    await productApi.delete(id);
+    await clientApi.delete(id);
     refetch();
   };
 

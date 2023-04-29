@@ -1,3 +1,5 @@
 {
-  "dependencies": {}
+  "dependencies": {
+    "react-paginating": "^1.4.0"
+  }
 }
