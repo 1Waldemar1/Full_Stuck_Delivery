@@ -78,7 +78,6 @@ export const CreateButton = () => {
             <TextField
               id="outlined-basic"
               label="Name"
-              type="text"
               {...register("name", {
                 required: "The field must be filled in",
               })}

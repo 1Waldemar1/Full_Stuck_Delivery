@@ -78,10 +78,8 @@ export const EditBtn = (props: any) => {
             <TextField
               id="outlined-basic"
               label="Name"
-              type="text"
               {...register("name", {
                 required: "The field must be filled in",
-                pattern: /^[а-яА-ЯёЁa-zA-Z0-9]+$/,
               })}
               variant="outlined"
             />
