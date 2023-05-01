@@ -17,16 +17,24 @@ export const CreateButton = () => {
   type Anchor = "right";
 
   const cancelCourse = () => {
-    (document.getElementById("form") as HTMLFormElement)?.reset();
+    reset();
   };
 
   const { refetch } = useQuery(["courier"], () =>
     CourierApi.getAll<ICourier[]>()
   );
-  const { register, handleSubmit } = useForm<ICourierForm>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+    reset,
+  } = useForm<ICourierForm>({
+    mode: "onBlur",
+  });
 
   const onSubmit = async (data: ICourierForm) => {
     await CourierApi.create(data);
+    reset();
     refetch();
   };
 
@@ -45,9 +53,11 @@ export const CreateButton = () => {
         return;
       }
 
-      if (!open) {
-        cancelCourse();
-      }
+      setTimeout(() => {
+        if (!open) {
+          cancelCourse();
+        }
+      }, 1000);
       setState({ ...state, [anchor]: open });
     };
 
@@ -56,7 +66,7 @@ export const CreateButton = () => {
       <List>
         <div>
           <div className={style.title}>
-            <h2>Create client</h2>
+            <h2>Create Courier</h2>
             <hr />
           </div>
           <form
@@ -67,21 +77,40 @@ export const CreateButton = () => {
             <TextField
               id="outlined-basic"
               label="Full Name"
-              {...register("full_name")}
+              {...register("full_name", {
+                required: "The field must be filled in",
+              })}
               variant="outlined"
             />
+            <span className={style.error}>
+              {errors?.full_name && (
+                <p>{errors?.full_name.message || "Error!"}</p>
+              )}
+            </span>
             <TextField
               id="outlined-basic"
               label="Phone"
               type="tel"
-              {...register("phone")}
+              {...register("phone", {
+                required: "The field must be filled in",
+                pattern: /^\+7\d{3}\d{3}\d{2}\d{2}$/,
+              })}
               variant="outlined"
             />
+            <span className={style.error}>
+              {errors?.phone && (
+                <p>
+                  {errors?.phone.message ||
+                    "Phone must be in the format: +7 (XXX) XXX-XX-XX"}
+                </p>
+              )}
+            </span>
             <div className={style.btn}>
               <div className={style.btns}>
                 <Button
                   type="submit"
                   onClick={toggleDrawer(anchor, false)}
+                  disabled={!isValid}
                   variant="contained"
                 >
                   Create

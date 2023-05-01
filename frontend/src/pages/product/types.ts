@@ -1,7 +1,7 @@
 export interface IProduct {
   idProduct: string;
   name: string;
-  price: string;
+  price: number;
 }
 
 export interface IProductForm extends Omit<IProduct, "idProduct"> {}

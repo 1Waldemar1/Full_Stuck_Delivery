@@ -3,7 +3,6 @@ import { IsDate, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class OrderDto {
   @IsNumber()
-  @Type(() => Number)
   @IsOptional()
   sum: number;
 

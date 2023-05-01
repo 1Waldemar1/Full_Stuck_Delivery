@@ -24,7 +24,14 @@ export const EditBtn = (props: any) => {
     ProductApi.getAll<IProduct[]>()
   );
 
-  const { register, handleSubmit } = useForm<IProductForm>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+    reset,
+  } = useForm<IProductForm>({
+    mode: "onBlur",
+  });
 
   const onEdit = async (data: IProductEdit) => {
     let id = props.id;
@@ -35,6 +42,7 @@ export const EditBtn = (props: any) => {
     };
 
     await ProductApi.update(id, product);
+    reset();
     refetch();
   };
 
@@ -52,7 +60,9 @@ export const EditBtn = (props: any) => {
       ) {
         return;
       }
-
+      setTimeout(() => {
+        reset();
+      }, 1000);
       setState({ ...state, [anchor]: open });
     };
 
@@ -68,19 +78,38 @@ export const EditBtn = (props: any) => {
             <TextField
               id="outlined-basic"
               label="Name"
-              {...register("name")}
+              type="text"
+              {...register("name", {
+                required: "The field must be filled in",
+                pattern: /^[а-яА-ЯёЁa-zA-Z0-9]+$/,
+              })}
               variant="outlined"
             />
+            <span className={style.error}>
+              {errors?.name && <p>{errors?.name.message || "Error!"}</p>}
+            </span>
             <TextField
               id="outlined-basic"
               label="Price"
-              {...register("price")}
+              {...register("price", {
+                required: "The field must be filled in",
+                pattern: /^\d+(\.\d+)?$/,
+              })}
               variant="outlined"
             />
+            <span className={style.error}>
+              {errors?.price && (
+                <p>
+                  {errors?.price.message ||
+                    "The price must be a positive number"}
+                </p>
+              )}
+            </span>
             <div className={style.btn}>
               <div className={style.create_btn}>
                 <Button
                   type="submit"
+                  disabled={!isValid}
                   onClick={toggleDrawer(anchor, false)}
                   variant="outlined"
                 >

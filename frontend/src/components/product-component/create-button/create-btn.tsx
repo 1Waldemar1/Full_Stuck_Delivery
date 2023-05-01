@@ -17,16 +17,25 @@ export const CreateButton = () => {
   type Anchor = "right";
 
   const cancelCourse = () => {
-    (document.getElementById("form") as HTMLFormElement)?.reset();
+    reset();
   };
 
   const { refetch } = useQuery(["product"], () =>
     ProductApi.getAll<IProduct[]>()
   );
-  const { register, handleSubmit } = useForm<IProductForm>();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+    reset,
+  } = useForm<IProductForm>({
+    mode: "onBlur",
+  });
 
   const onSubmit = async (data: IProductForm) => {
     await ProductApi.create(data);
+    reset();
     refetch();
   };
 
@@ -45,9 +54,11 @@ export const CreateButton = () => {
         return;
       }
 
-      if (!open) {
-        cancelCourse();
-      }
+      setTimeout(() => {
+        if (!open) {
+          cancelCourse();
+        }
+      }, 1000);
       setState({ ...state, [anchor]: open });
     };
 
@@ -67,20 +78,38 @@ export const CreateButton = () => {
             <TextField
               id="outlined-basic"
               label="Name"
-              {...register("name")}
+              type="text"
+              {...register("name", {
+                required: "The field must be filled in",
+              })}
               variant="outlined"
             />
+            <span className={style.error}>
+              {errors?.name && <p>{errors?.name.message || "Error!"}</p>}
+            </span>
             <TextField
               id="outlined-basic"
               label="Price"
-              {...register("price")}
+              {...register("price", {
+                required: "The field must be filled in",
+                pattern: /^\d+(\.\d+)?$/,
+              })}
               variant="outlined"
             />
+            <span className={style.error}>
+              {errors?.price && (
+                <p>
+                  {errors?.price.message ||
+                    "The price must be a positive number"}
+                </p>
+              )}
+            </span>
             <div className={style.btn}>
               <div className={style.btns}>
                 <Button
                   type="submit"
                   onClick={toggleDrawer(anchor, false)}
+                  disabled={!isValid}
                   variant="contained"
                 >
                   Create

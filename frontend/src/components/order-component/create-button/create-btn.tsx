@@ -27,7 +27,7 @@ export const CreateButton = () => {
   type Anchor = "right";
 
   const cancelCourse = () => {
-    (document.getElementById("form") as HTMLFormElement)?.reset();
+    reset();
   };
 
   const { refetch } = useQuery(["order"], () => OrderApi.getAll<IOrder[]>());
@@ -37,10 +37,18 @@ export const CreateButton = () => {
   const { data: courier } = useQuery(["courier"], () =>
     CourierApi.getAll<ICourier[]>()
   );
-  const { register, handleSubmit } = useForm<IOrderForm>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+    reset,
+  } = useForm<IOrderForm>({
+    mode: "onBlur",
+  });
 
   const onSubmit = async (data: IOrderForm) => {
     await OrderApi.create(data);
+    reset();
     refetch();
   };
 
@@ -59,9 +67,11 @@ export const CreateButton = () => {
         return;
       }
 
-      if (!open) {
-        cancelCourse();
-      }
+      setTimeout(() => {
+        if (!open) {
+          cancelCourse();
+        }
+      }, 1000);
       setState({ ...state, [anchor]: open });
     };
 
@@ -81,15 +91,32 @@ export const CreateButton = () => {
             <TextField
               id="outlined-basic"
               label="Address"
-              {...register("address")}
+              {...register("address", {
+                required: "The field must be filled in",
+              })}
               variant="outlined"
             />
+            <span className={style.error}>
+              {errors?.address && <p>{errors?.address.message || "Error!"}</p>}
+            </span>
             <TextField
               id="outlined-basic"
               type="date"
-              {...register("order_creation_date")}
+              {...register("order_creation_date", {
+                required: "The field must be filled in",
+                pattern:
+                  /(19|20)\d\d-((0[1-9]|1[012])-(0[1-9]|[12]\d)|(0[13-9]|1[012])-30|(0[13578]|1[02])-31)/,
+              })}
               variant="outlined"
             />
+            <span className={style.error}>
+              {errors?.order_creation_date && (
+                <p>
+                  {errors?.order_creation_date.message ||
+                    "Enter the correct date"}
+                </p>
+              )}
+            </span>
             <FormControl fullWidth>
               <InputLabel>Client</InputLabel>
               {client && (
@@ -99,7 +126,7 @@ export const CreateButton = () => {
                   fullWidth
                   defaultValue=""
                   inputProps={register("idClient", {
-                    required: "Please enter currency",
+                    required: "The field must be filled in",
                   })}
                 >
                   {client.map((item) => (
@@ -110,6 +137,11 @@ export const CreateButton = () => {
                 </Select>
               )}
             </FormControl>
+            <span className={style.error}>
+              {errors?.idClient && (
+                <p>{errors?.idClient.message || "Error!"}</p>
+              )}
+            </span>
             <FormControl fullWidth>
               <InputLabel>Courier</InputLabel>
               {courier && (
@@ -119,7 +151,7 @@ export const CreateButton = () => {
                   fullWidth
                   defaultValue=""
                   inputProps={register("idCourier", {
-                    required: "Please enter currency",
+                    required: "The field must be filled in",
                   })}
                 >
                   {courier.map((item) => (
@@ -130,11 +162,17 @@ export const CreateButton = () => {
                 </Select>
               )}
             </FormControl>
+            <span className={style.error}>
+              {errors?.idCourier && (
+                <p>{errors?.idCourier.message || "Error!"}</p>
+              )}
+            </span>
             <div className={style.btn}>
               <div className={style.btns}>
                 <Button
                   type="submit"
                   onClick={toggleDrawer(anchor, false)}
+                  disabled={!isValid}
                   variant="contained"
                 >
                   Create

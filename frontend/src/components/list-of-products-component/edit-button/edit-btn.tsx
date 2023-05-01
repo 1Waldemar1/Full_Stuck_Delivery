@@ -30,20 +30,26 @@ import { IProduct } from "../../../pages/product/types";
 export const EditBtn = (props: any) => {
   type Anchor = "right";
 
-  const cancelCourse = () => {
-    (document.getElementById("form") as HTMLFormElement)?.reset();
-  };
-
   const { refetch } = useQuery(["list-of-products"], () =>
     ListOfProductsApi.getAll<IListOfProducts[]>()
   );
+
   const { data: product } = useQuery(["product"], () =>
     ProductApi.getAll<IProduct[]>()
   );
+
   const { data: order } = useQuery(["order"], () =>
     OrderApi.getAll<IOrder[]>()
   );
-  const { register, handleSubmit } = useForm<IListOfProductsForm>();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+    reset,
+  } = useForm<IListOfProductsForm>({
+    mode: "onBlur",
+  });
 
   const onEdit = async (data: IListOfProductsEdit) => {
     let id = props.id;
@@ -55,6 +61,7 @@ export const EditBtn = (props: any) => {
     };
 
     await ListOfProductsApi.update(id, list_of_products);
+    reset();
     refetch();
   };
 
@@ -73,9 +80,9 @@ export const EditBtn = (props: any) => {
         return;
       }
 
-      if (!open) {
-        cancelCourse();
-      }
+      setTimeout(() => {
+        reset();
+      }, 1000);
       setState({ ...state, [anchor]: open });
     };
 
@@ -101,7 +108,7 @@ export const EditBtn = (props: any) => {
                   fullWidth
                   defaultValue=""
                   inputProps={register("idOrder", {
-                    required: "Please enter currency",
+                    required: "The field must be filled in",
                   })}
                 >
                   {order.map((item) => (
@@ -112,6 +119,9 @@ export const EditBtn = (props: any) => {
                 </Select>
               )}
             </FormControl>
+            <span className={style.error}>
+              {errors?.idOrder && <p>{errors?.idOrder.message || "Error!"}</p>}
+            </span>
             <FormControl fullWidth>
               <InputLabel>Name Product</InputLabel>
               {product && (
@@ -121,7 +131,7 @@ export const EditBtn = (props: any) => {
                   fullWidth
                   defaultValue=""
                   inputProps={register("idProduct", {
-                    required: "Please enter currency",
+                    required: "The field must be filled in",
                   })}
                 >
                   {product.map((item) => (
@@ -132,17 +142,34 @@ export const EditBtn = (props: any) => {
                 </Select>
               )}
             </FormControl>
+            <span className={style.error}>
+              {errors?.idProduct && (
+                <p>{errors?.idProduct.message || "Error!"}</p>
+              )}
+            </span>
             <TextField
               id="outlined-basic"
               label={"Quantity"}
-              {...register("quantity")}
+              {...register("quantity", {
+                required: "The field must be filled in",
+                pattern: /^\d+$/,
+              })}
               variant="outlined"
             />
+            <span className={style.error}>
+              {errors?.quantity && (
+                <p>
+                  {errors?.quantity.message ||
+                    "The quantity must be a positive integer"}
+                </p>
+              )}
+            </span>
             <div className={style.btn}>
               <div className={style.create_btn}>
                 <Button
                   type="submit"
                   onClick={toggleDrawer(anchor, false)}
+                  disabled={!isValid}
                   variant="outlined"
                 >
                   Edit

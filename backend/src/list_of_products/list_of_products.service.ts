@@ -7,54 +7,51 @@ import { returnListOfProducts } from './return-list_of_products.object';
 export class ListOfProductsService {
   constructor(private prisma: PrismaService) {}
 
-  async createListProducts(dto: ListProductsDto)
-  {
+  async createListProducts(dto: ListProductsDto) {
     return this.prisma.list_of_products.create({
       data: {
-        ...dto
-      }
-    })
+        ...dto,
+      },
+    });
   }
 
   async getListsProducts() {
     return await this.prisma.list_of_products.findMany({
-      select: returnListOfProducts
-    })
+      select: returnListOfProducts,
+    });
   }
 
   async byId(idList_of_products: number) {
     const list_products = await this.prisma.list_of_products.findUnique({
       where: {
-        idList_of_products
+        idList_of_products,
       },
       select: {
-        ...returnListOfProducts
-      }
-    })
+        ...returnListOfProducts,
+      },
+    });
 
-    if (!list_products){
-      throw new BadRequestException('List of products not found')
+    if (!list_products) {
+      throw new BadRequestException('List of products not found');
     }
 
-    return list_products
+    return list_products;
   }
 
   async updateListProducts(idListProducts: number, dto: ListProductsDto) {
-
     return this.prisma.list_of_products.update({
       where: {
-        idList_of_products: idListProducts
+        idList_of_products: idListProducts,
       },
-      data: dto
-    })
+      data: dto,
+    });
   }
 
   async deleteListProducts(idListProducts: number) {
-
     return this.prisma.list_of_products.delete({
       where: {
         idList_of_products: idListProducts,
-      }
-    })
+      },
+    });
   }
 }

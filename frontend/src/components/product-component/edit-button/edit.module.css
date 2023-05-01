@@ -40,6 +40,11 @@
   cursor: pointer;
 }
 
+.error {
+  margin-top: -20px;
+  color: rgb(230, 0, 0);
+}
+
 .edit_btn:hover {
   color: rgb(0, 192, 0);
 }
