@@ -11,7 +11,6 @@ import {
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { ProductDto } from './dto/product.dto';
-
 @Controller('product')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
@@ -35,11 +34,6 @@ export class ProductController {
   @Put(':id')
   async update(@Param('id') idProduct: string, @Body() dto: ProductDto) {
     return this.productService.updateProduct(+idProduct, dto);
-  }
-
-  @Put('call/:procent')
-  async call(@Param('procent') procent: number) {
-    return this.productService.callProcedure(procent);
   }
 
   @Delete(':id')

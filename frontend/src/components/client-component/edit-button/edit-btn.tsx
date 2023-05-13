@@ -57,7 +57,7 @@ export const EditBtn = (props: any) => {
       }
       setTimeout(() => {
         reset();
-      }, 1000);
+      }, 300);
       setState({ ...state, [anchor]: open });
     };
 

@@ -54,8 +54,4 @@ export class ProductService {
       },
     });
   }
-
-  async callProcedure(procent: number) {
-    return await this.prisma.$executeRaw`call increase_prices(${procent})`;
-  }
 }

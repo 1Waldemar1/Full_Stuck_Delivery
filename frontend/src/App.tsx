@@ -5,7 +5,6 @@ import { ProductPage } from "./pages/product/product";
 import { ClientPage } from "./pages/client/client";
 import { CourierPage } from "./pages/courier/courier";
 
-import "./App.css";
 import { OrderPage } from "./pages/order/order";
 import { ListOfProductsPage } from "./pages/list-of-products/list-of-products";
 
@@ -15,7 +14,7 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       {
-        path: "product",
+        path: "product/*",
         element: <ProductPage />,
       },
       {

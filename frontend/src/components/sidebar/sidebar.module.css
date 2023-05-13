@@ -5,5 +5,10 @@
 
 .root {
   background-color: rgb(255, 255, 255);
-  height: 1000px;
+  height: 950px;
+}
+
+.box {
+  position: sticky;
+  top: 0;
 }

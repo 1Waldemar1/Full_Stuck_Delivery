@@ -71,7 +71,7 @@ export const CreateButton = () => {
         if (!open) {
           cancelCourse();
         }
-      }, 1000);
+      }, 300);
       setState({ ...state, [anchor]: open });
     };
 
