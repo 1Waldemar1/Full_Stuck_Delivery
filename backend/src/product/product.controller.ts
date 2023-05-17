@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -22,6 +23,8 @@ export class ProductController {
   }
 
   @Get()
+  // async get(@Query('page') page: number, @Query('limit') limit: number) {
+  //   return this.productService.getProducts(page, limit);
   async get() {
     return this.productService.getProducts();
   }

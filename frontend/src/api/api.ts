@@ -1,5 +1,5 @@
 export class Api {
-  constructor(private baseUrl = "http://localhost:3000/") {}
+  constructor(private baseUrl = "http://localhost:3000/api/") {}
 
   async get(path: string, param?: { [key: string]: string }) {
     const queryParam = param

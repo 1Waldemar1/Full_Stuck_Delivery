@@ -21,6 +21,15 @@ export class ProductService {
     });
   }
 
+  // async getProducts(page: number, limit: number) {
+  //   const products = await this.prisma.product.findMany({
+  //     skip: (page - 1) * limit,
+  //     take: limit,
+  //   });
+
+  //   return products;
+  // }
+
   async byId(idProduct: number) {
     const product = await this.prisma.product.findUnique({
       where: {

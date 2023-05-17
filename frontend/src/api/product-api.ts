@@ -9,6 +9,10 @@ export const ProductApi = {
   async getById(id: string) {
     return await api.get(this.path + id);
   },
+  // async getPaginationAll<T>(page: number, limit: number): Promise<T> {
+  //   const pagination = `?page=${page}&limit=${limit}`;
+  //   return await api.get(this.path + pagination);
+  // },
   async create(product: IProductForm) {
     return await api.post(this.path, product);
   },
