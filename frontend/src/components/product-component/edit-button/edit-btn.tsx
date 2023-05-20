@@ -20,8 +20,12 @@ import style from "./edit.module.css";
 export const EditBtn = (props: any) => {
   type Anchor = "right";
 
-  const { refetch } = useQuery(["product"], () =>
+  const { data, refetch } = useQuery(["product"], () =>
     ProductApi.getAll<IProduct[]>()
+  );
+
+  const [selectedProduct, setSelectedProduct] = React.useState<IProduct | null>(
+    null
   );
 
   const {
@@ -63,6 +67,14 @@ export const EditBtn = (props: any) => {
       setTimeout(() => {
         reset();
       }, 300);
+
+      if (open && data && data.length > 0) {
+        const product = data.find((p: IProduct) => p.idProduct === props.id);
+        setSelectedProduct(product || null);
+      } else {
+        setSelectedProduct(null);
+      }
+
       setState({ ...state, [anchor]: open });
     };
 
@@ -81,6 +93,7 @@ export const EditBtn = (props: any) => {
               {...register("name", {
                 required: "The field must be filled in",
               })}
+              value={selectedProduct?.name || ""}
               variant="outlined"
             />
             <span className={style.error}>
@@ -93,6 +106,7 @@ export const EditBtn = (props: any) => {
                 required: "The field must be filled in",
                 pattern: /^\d+(\.\d+)?$/,
               })}
+              defaultValue={selectedProduct?.price || ""}
               variant="outlined"
             />
             <span className={style.error}>

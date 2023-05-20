@@ -20,8 +20,12 @@ import {
 export const EditBtn = (props: any) => {
   type Anchor = "right";
 
-  const { refetch } = useQuery(["courier"], () =>
+  const { data, refetch } = useQuery(["courier"], () =>
     CourierApi.getAll<ICourier[]>()
+  );
+
+  const [selectedCourier, setSelectedCourier] = React.useState<ICourier | null>(
+    null
   );
 
   const {
@@ -63,6 +67,14 @@ export const EditBtn = (props: any) => {
       setTimeout(() => {
         reset();
       }, 300);
+
+      if (open && data && data.length > 0) {
+        const couriers = data.find((p: ICourier) => p.idCourier === props.id);
+        setSelectedCourier(couriers || null);
+      } else {
+        setSelectedCourier(null);
+      }
+
       setState({ ...state, [anchor]: open });
     };
 
@@ -81,6 +93,7 @@ export const EditBtn = (props: any) => {
               {...register("full_name", {
                 required: "The field must be filled in",
               })}
+              value={selectedCourier?.full_name || ""}
               variant="outlined"
             />
             <span className={style.error}>
@@ -96,6 +109,7 @@ export const EditBtn = (props: any) => {
                 required: "The field must be filled in",
                 pattern: /^\+7\d{3}\d{3}\d{2}\d{2}$/,
               })}
+              value={selectedCourier?.phone || ""}
               variant="outlined"
             />
             <span className={style.error}>

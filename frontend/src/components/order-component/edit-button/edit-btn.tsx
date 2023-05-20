@@ -26,7 +26,9 @@ import { IOrder, IOrderEdit, IOrderForm } from "../../../pages/order/types";
 export const EditBtn = (props: any) => {
   type Anchor = "right";
 
-  const { refetch } = useQuery(["order"], () => OrderApi.getAll<IOrder[]>());
+  const { data, refetch } = useQuery(["order"], () =>
+    OrderApi.getAll<IOrder[]>()
+  );
 
   const { data: client } = useQuery(["client"], () =>
     ClientApi.getAll<IClient[]>()
@@ -35,6 +37,8 @@ export const EditBtn = (props: any) => {
   const { data: courier } = useQuery(["courier"], () =>
     CourierApi.getAll<ICourier[]>()
   );
+
+  const [selectedOrder, setSelectedOrder] = React.useState<IOrder | null>(null);
 
   const {
     register,
@@ -78,6 +82,14 @@ export const EditBtn = (props: any) => {
       setTimeout(() => {
         reset();
       }, 300);
+
+      if (open && data && data.length > 0) {
+        const order = data.find((p: IOrder) => p.idOrder === props.id);
+        setSelectedOrder(order || null);
+      } else {
+        setSelectedOrder(null);
+      }
+
       setState({ ...state, [anchor]: open });
     };
 
@@ -96,6 +108,7 @@ export const EditBtn = (props: any) => {
               {...register("address", {
                 required: "The field must be filled in",
               })}
+              value={selectedOrder?.address || ""}
               variant="outlined"
             />
             <span className={style.error}>
@@ -126,7 +139,6 @@ export const EditBtn = (props: any) => {
                   label="client"
                   MenuProps={{ disableScrollLock: true }}
                   fullWidth
-                  defaultValue=""
                   inputProps={register("idClient", {
                     required: "The field must be filled in",
                   })}

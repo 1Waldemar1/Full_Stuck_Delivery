@@ -7,9 +7,10 @@ import { ClientModule } from './client/client.module';
 import { CourierModule } from './courier/courier.module';
 import { ListOfProductsModule } from './list_of_products/list_of_products.module';
 import { OrderModule } from './order/order.module';
+import { ProcedureModule } from './procedure/procedure.module';
 
 @Module({
-  imports: [ProductModule, ClientModule, CourierModule, ListOfProductsModule, OrderModule],
+  imports: [ProductModule, ClientModule, CourierModule, ListOfProductsModule, OrderModule, ProcedureModule],
   controllers: [AppController],
   providers: [AppService, PrismaService],
 })

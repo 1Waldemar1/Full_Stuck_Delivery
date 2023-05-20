@@ -30,7 +30,7 @@ import { IProduct } from "../../../pages/product/types";
 export const EditBtn = (props: any) => {
   type Anchor = "right";
 
-  const { refetch } = useQuery(["list-of-products"], () =>
+  const { data, refetch } = useQuery(["list-of-products"], () =>
     ListOfProductsApi.getAll<IListOfProducts[]>()
   );
 
@@ -41,6 +41,9 @@ export const EditBtn = (props: any) => {
   const { data: order } = useQuery(["order"], () =>
     OrderApi.getAll<IOrder[]>()
   );
+
+  const [selectedListOfProducts, setSelectedListOfProducts] =
+    React.useState<IListOfProducts | null>(null);
 
   const {
     register,
@@ -83,6 +86,16 @@ export const EditBtn = (props: any) => {
       setTimeout(() => {
         reset();
       }, 300);
+
+      if (open && data && data.length > 0) {
+        const list = data.find(
+          (p: IListOfProducts) => p.idList_of_products === props.id
+        );
+        setSelectedListOfProducts(list || null);
+      } else {
+        setSelectedListOfProducts(null);
+      }
+
       setState({ ...state, [anchor]: open });
     };
 
@@ -154,6 +167,7 @@ export const EditBtn = (props: any) => {
                 required: "The field must be filled in",
                 pattern: /^\d+$/,
               })}
+              value={selectedListOfProducts?.quantity || ""}
               variant="outlined"
             />
             <span className={style.error}>
