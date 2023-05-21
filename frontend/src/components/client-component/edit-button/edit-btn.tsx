@@ -90,7 +90,7 @@ export const EditBtn = (props: any) => {
               {...register("full_name", {
                 required: "The field must be filled in",
               })}
-              value={selectedClient?.full_name || ""}
+              defaultValue={selectedClient?.full_name || ""}
               variant="outlined"
             />
             <span className={style.error}>
@@ -106,7 +106,7 @@ export const EditBtn = (props: any) => {
                 required: "The field must be filled in",
                 pattern: /^\+7\d{3}\d{3}\d{2}\d{2}$/,
               })}
-              value={selectedClient?.phone || ""}
+              defaultValue={selectedClient?.phone || ""}
               variant="outlined"
             />
             <span className={style.error}>
@@ -123,7 +123,7 @@ export const EditBtn = (props: any) => {
               {...register("address", {
                 required: "The field must be filled in",
               })}
-              value={selectedClient?.address || ""}
+              defaultValue={selectedClient?.address || ""}
               variant="outlined"
             />
             <span className={style.error}>

@@ -34,6 +34,7 @@ export class ProductController {
     return this.productService.byId(+idProduct);
   }
 
+  @UsePipes(new ValidationPipe())
   @Put(':id')
   async update(@Param('id') idProduct: string, @Body() dto: ProductDto) {
     return this.productService.updateProduct(+idProduct, dto);

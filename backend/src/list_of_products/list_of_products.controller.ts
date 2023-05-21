@@ -32,6 +32,7 @@ export class ListOfProductsController {
     return this.listOfProductsService.byId(+idList_of_products);
   }
 
+  @UsePipes(new ValidationPipe())
   @Put(':id')
   async update(
     @Param('id') idListProducts: string,

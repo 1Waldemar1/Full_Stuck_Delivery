@@ -167,7 +167,7 @@ export const EditBtn = (props: any) => {
                 required: "The field must be filled in",
                 pattern: /^\d+$/,
               })}
-              value={selectedListOfProducts?.quantity || ""}
+              defaultValue={selectedListOfProducts?.quantity || ""}
               variant="outlined"
             />
             <span className={style.error}>
