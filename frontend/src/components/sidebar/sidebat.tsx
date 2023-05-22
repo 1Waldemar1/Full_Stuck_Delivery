@@ -50,6 +50,13 @@ export const Sidebar = () => {
               </ListItemButton>
             </ListItem>
           </Link>
+          <Link to={"procedure"} className={style.link}>
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemText primary="Procedure" />
+              </ListItemButton>
+            </ListItem>
+          </Link>
         </List>
       </nav>
     </Box>
