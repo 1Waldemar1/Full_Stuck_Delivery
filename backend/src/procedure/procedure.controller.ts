@@ -7,8 +7,7 @@ export class ProcedureController {
   constructor(private readonly procedureService: ProcedureService) {}
 
   @Post()
-  async createProcedure(@Body() procent: number) {
-    console.log(procent);
-    return this.procedureService.create(procent);
+  async createProcedure(@Body() percent: ProcedureDto) {
+    return this.procedureService.create(percent);
   }
 }

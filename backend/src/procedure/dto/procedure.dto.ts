@@ -1,7 +1,8 @@
 import { Type } from 'class-transformer';
-import { IsInt, IsNumber, IsString } from 'class-validator';
+import { IsNumber } from 'class-validator';
 
 export class ProcedureDto {
-  @IsInt()
-  procent: number;
+  @IsNumber()
+  @Type(() => Number)
+  value: number;
 }
