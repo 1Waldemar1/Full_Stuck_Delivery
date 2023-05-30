@@ -163,7 +163,6 @@ export const EditBtn = (props: any) => {
                   label="Courier"
                   MenuProps={{ disableScrollLock: true }}
                   fullWidth
-                  defaultValue=""
                   inputProps={register("idCourier", {
                     required: "The field must be filled in",
                   })}
